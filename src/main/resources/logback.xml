@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="arn:logger:application:std::out" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%boldCyan(%d{ISO8601}) |- %highlight(%-5level)-| %boldMagenta(%logger{33})->%green([%line{}]) - %white%msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="arn:logger:application:std::out" />
+    </root>
+</configuration>

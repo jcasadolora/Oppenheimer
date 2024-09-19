@@ -1,0 +1,12 @@
+checkstyle {
+    toolVersion = checkstyleVersion
+    ignoreFailures = false
+    configFile = file("config/checkstyle/checkstyle.xml")
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}

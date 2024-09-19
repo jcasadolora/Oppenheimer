@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oppenheimer
+  namespace: oppenheimer
+  labels:
+    app: oppenheimer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oppenheimer
+  strategy:
+    rollingUpdate:
+      maxSurge: 20%
+      maxUnavailable: 20%
+    type: RollingUpdate
+  minReadySeconds: 60
+  progressDeadlineSeconds: 600
+  template:
+    metadata:
+      labels:
+        app: oppenheimer
+    spec:
+      restartPolicy: Always
+      containers:
+        - image: localhost:5000/oppenheimer:latest
+          imagePullPolicy: IfNotPresent
+          name: oppenheimer
+          resources:
+            requests:
+              cpu: "20m"
+              memory: "20Mi"
+            limits:
+              cpu: "50m"
+              memory: "40Mi"
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 80
+            periodSeconds: 2
+            initialDelaySeconds: 30
+            failureThreshold: 3
+            successThreshold: 1
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+          volumeMounts:
+            - name: oppenheimer-cfg
+              mountPath: /etc/oppenheimer/oppenheimer.conf
+              subPath: oppenheimer.conf
+              readOnly: true
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: oppenheimer-cfg
+          configMap:
+            name: oppenheimer
+            items:
+              - key: "oppenheimer.conf"
+                path: "oppenheimer.conf"
+        - name: oppenheimer-persistence
+          persistentVolumeClaim:
+            claimName: oppenheimer-volume

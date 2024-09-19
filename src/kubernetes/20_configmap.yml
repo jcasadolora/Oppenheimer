@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+
+kind: ConfigMap
+metadata:
+  name: oppenheimer
+  namespace: oppenheimer

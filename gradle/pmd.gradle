@@ -1,0 +1,11 @@
+pmd {
+    toolVersion = pmdVersion
+    ignoreFailures = false
+}
+
+tasks.withType(Pmd) {
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}

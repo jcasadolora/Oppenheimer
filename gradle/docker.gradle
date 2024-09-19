@@ -1,0 +1,26 @@
+jib {
+    from {
+        image = 'eclipse-temurin:21-jre'
+    }
+    to {
+        image = 'localhost:5000/oppenheimer'
+        tags = ['latest', 'v1.0.0']
+//        auth {
+//            username = 'developer'
+//            password = 'developer'
+//        }
+        allowInsecureRegistries = true
+    }
+    container {
+        environment = [
+            'SPRING_PROFILES_ACTIVE': 'local'
+        ]
+        ports = ['8080']
+        jvmFlags = ['-Xms512m', '-Xmx1024m']
+        mainClass = 'com.nisum.oppenheimer.Application'
+    }
+}
+
+tasks.named('jib') {
+    dependsOn 'clean', 'build'
+}

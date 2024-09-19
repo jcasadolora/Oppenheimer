@@ -1,0 +1,23 @@
+jacoco {
+    toolVersion = jacocoVersion
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = true
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.80 // Set minimum code coverage threshold (80%)
+            }
+        }
+    }
+}
+

@@ -1,0 +1,39 @@
+plugins {
+	id 'java'
+	id 'groovy'
+	id 'pmd'
+	id 'checkstyle'
+	id 'jacoco'
+	id 'org.springframework.boot' version '3.3.4'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'com.google.cloud.tools.jib' version '3.4.3'
+	id "org.eclipse.jkube.kubernetes" version '1.17.0'
+}
+
+group = 'com.nisum.oppenheimer'
+version = '1.0.0'
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+apply from: 'gradle/dependencies.gradle'
+apply from: 'gradle/pmd.gradle'
+apply from: 'gradle/checkstyle.gradle'
+apply from: 'gradle/jacoco.gradle'
+apply from: 'gradle/docker.gradle'
+
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}

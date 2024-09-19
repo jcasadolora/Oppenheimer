@@ -1,0 +1,74 @@
+# Application
+spring:
+  application:
+    name: Oppenheimer
+
+  datasource:
+    url: jdbc:h2:mem:oppenheimer-db
+    username: oppenheimer
+    password: oppenheimer
+    driver-class-name: org.h2.Driver
+    h2:
+      console:
+        enabled: true
+        path: /h2-console
+    hikari:
+      pool-name: HikariCP
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      leak-detection-threshold: 15000
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      dialect: org.hibernate.dialect.H2Dialect
+      ddl-auto: update
+    properties:
+      hibernate:
+      format_sql: true
+      use_sql_comments: true
+
+  devtools:
+    add-properties: false
+
+# Server
+server:
+  port: 8080
+  shutdown: graceful
+  graceful:
+    timeout: 30s
+
+reactor:
+  netty:
+    ioWorkerCount: 4
+    pool:
+      leasingStrategy: fifo
+
+logging:
+  level:
+    root: INFO
+    reactor.netty: INFO
+    org.springframework.web: INFO
+    com.nisum.oppenheimer: INFO
+
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics"
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
