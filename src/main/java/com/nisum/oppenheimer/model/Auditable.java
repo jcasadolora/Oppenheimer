@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 public abstract class Auditable {
 
     @Column(name = "created", updatable = false)
-    private LocalDateTime created;
+    protected LocalDateTime created;
 
     @Column(name = "modified")
-    private LocalDateTime modified;
+    protected LocalDateTime modified;
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         created = LocalDateTime.now();
         modified = LocalDateTime.now();
     }
