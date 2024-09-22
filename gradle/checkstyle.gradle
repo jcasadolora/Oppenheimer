@@ -9,4 +9,6 @@ tasks.withType(Checkstyle) {
         xml.required = true
         html.required = true
     }
+    // Include Groovy test files
+    source = fileTree(dir: 'src/test/groovy', includes: ['**/*.groovy'])
 }
