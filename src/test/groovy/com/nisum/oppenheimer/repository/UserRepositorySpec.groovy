@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull
 @ActiveProfiles("test")
 class UserRepositorySpec extends Specification {
 
-    @Autowired
-    UserRepository userRepository
+
+    @Autowired UserRepository userRepository
 
     /**
      * Tests the saving of a User and checks for existence by email.
@@ -50,13 +50,14 @@ class UserRepositorySpec extends Specification {
                             .xkey("unique-key")
                             .name("John Doe")
                             .email("john.doe@nisum.com")
-                            .password("securepassword".toCharArray())
+                            .password("securepassword")
+                            .token(UUID.randomUUID().toString())
                            .build()
         when:
             userRepository.save(user as User)
         then:
-            userRepository.existsByEmail("john.doe@nisum.com") == true
-            userRepository.existsByEmail("nonexistent@nisum.com") == false
+            userRepository.existsByEmail("john.doe@nisum.com")
+            !userRepository.existsByEmail("nonexistent@nisum.com")
     }
 
     /**
@@ -89,7 +90,8 @@ class UserRepositorySpec extends Specification {
                             .xkey("unique-key")
                             .name("John Doe")
                             .email("john.doe@nisum.com")
-                            .password("securepassword".toCharArray())
+                            .password("securepassword")
+                            .token(UUID.randomUUID().toString())
                            .build()
             userRepository.save(user)
         when:

@@ -36,7 +36,7 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper=true)
 @Table(name="USERS")
 @Access(AccessType.FIELD)
-@ToString(exclude = {"phones","tokens"})
+@ToString(exclude = {"phones"})
 public class User extends Auditable implements Serializable {
 
     @Serial
@@ -72,17 +72,17 @@ public class User extends Auditable implements Serializable {
      * The user's password. Stored as a char array for security.
      */
     @Column(nullable = false)
-    private char[] password;
+    private String password;
+
+    /**
+     * The user's token (Jwt)
+     */
+    @Column(unique = true,nullable = false)
+    private String token;
 
     /**
      * The set of phone numbers associated with the user.
      */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Phone> phones;
-
-    /**
-     * The list of tokens associated with the user.
-     */
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Token> tokens;
 }
