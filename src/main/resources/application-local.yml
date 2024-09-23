@@ -8,10 +8,6 @@ spring:
     username: oppenheimer
     password: oppenheimer
     driver-class-name: org.h2.Driver
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
     hikari:
       pool-name: HikariCP
       maximum-pool-size: 10
@@ -21,9 +17,14 @@ spring:
       connection-timeout: 30000
       leak-detection-threshold: 15000
 
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
   jpa:
     open-in-view: false
-    show-sql: true
+    show-sql: false
     hibernate:
       dialect: org.hibernate.dialect.H2Dialect
       ddl-auto: update
@@ -41,6 +42,8 @@ server:
   shutdown: graceful
   graceful:
     timeout: 30s
+  servlet:
+    context-path: /oppenheimer
 
 reactor:
   netty:
@@ -50,13 +53,13 @@ reactor:
 
 logging:
   level:
-    root: INFO
+    root: OFF
     reactor.netty: INFO
     org.springframework.web: INFO
     com.nisum.oppenheimer: INFO
 
 springdoc:
-  show-actuator: true
+  show-actuator: false
   api-docs:
     path: /api-docs
   swagger-ui:
@@ -72,3 +75,15 @@ management:
       enabled: true
     readinessState:
       enabled: true
+
+token:
+  expiration: 86400000
+  key: dLGC4NvgKCYv/kNt1wK8KkIRfWSnUTBBc7wB1JYybcs=
+
+password:
+  regex: ^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=]).*$
+  saltLength: 16
+  hashLength: 32
+  parallelism: 1
+  memory: 60000
+  iterations: 10

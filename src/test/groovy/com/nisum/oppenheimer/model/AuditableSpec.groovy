@@ -46,7 +46,11 @@ class AuditableSpec extends Specification {
     @Transactional
     def "should set created and modified timestamps on persist for User"() {
         given:
-            def user = new User(xkey: "user1", name: "John Doe", email: "john@nisum.com", password: "password".toCharArray())
+            def user = new User(xkey: "user1",
+                                name: "John Doe",
+                                email: "john@nisum.com",
+                                token: UUID.randomUUID().toString(),
+                                password: "password")
         when:
             entityManager.persist(user)
             entityManager.flush()
@@ -56,47 +60,6 @@ class AuditableSpec extends Specification {
             user.created != null
             user.modified != null
             user.created.isBefore(user.modified)
-    }
-
-    /**
-     * Tests that the created and modified timestamps are correctly set
-     * when a Token entity is persisted.
-     *
-     * <p>
-     * Given a User object and a Token object with valid attributes:
-     * <ul>
-     *     <li>xkey: "token1"</li>
-     *     <li>jwt: "jwt-token"</li>
-     *     <li>status: TokenStatus.ENABLE</li>
-     *     <li>user: the User object created above</li>
-     * </ul>
-     *
-     * When the Token is persisted, the test expects that:
-     * <ul>
-     *     <li>The created timestamp is not null.</li>
-     *     <li>The modified timestamp is not null.</li>
-     *     <li>The created timestamp is before the modified timestamp.</li>
-     * </ul>
-     * </p>
-     */
-    @Transactional
-    def "should set created and modified timestamps on persist for Token"() {
-        given:
-            def user = new User(xkey: "user1", name: "John Doe", email: "john@nisum.com", password: "password".toCharArray())
-            entityManager.persist(user)
-
-            def token = new Token(xkey: "token1", jwt: "jwt-token", status: Token.TokenStatus.ENABLE, user: user)
-
-        when:
-            entityManager.persist(token)
-            entityManager.flush()
-
-        then:
-            assertNotNull(user)
-            assertNotNull(token)
-            token.created != null
-            token.modified != null
-            token.created.isBefore(token.modified)
     }
 
     /**
@@ -124,7 +87,11 @@ class AuditableSpec extends Specification {
     @Transactional
     def "should set created and modified timestamps on persist for Phone"() {
         given:
-            def user = new User(xkey: "user1", name: "John Doe", email: "john@nisum.com", password: "password".toCharArray())
+            def user = new User(xkey: "user1",
+                    name: "John Doe",
+                    email: "john@nisum.com",
+                    token: UUID.randomUUID().toString(),
+                    password: "password")
             entityManager.persist(user)
 
             def phone = new Phone(xkey: "phone1", number: 1234567890L, cityCode: 1, countryCode: 1, user: user)
@@ -165,7 +132,11 @@ class AuditableSpec extends Specification {
      */
     def "should set modified timestamp on update for User"() {
         given:
-            def user = new User(xkey: "user1", name: "John Doe", email: "john@nisum.com", password: "password".toCharArray())
+        def user = new User(xkey: "user1",
+                name: "John Doe",
+                email: "john@nisum.com",
+                token: UUID.randomUUID().toString(),
+                password: "password")
             entityManager.persist(user)
             entityManager.flush()
 

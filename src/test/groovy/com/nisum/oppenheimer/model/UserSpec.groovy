@@ -39,8 +39,10 @@ class UserSpec extends Specification {
                             .xkey("unique-key")
                             .name("John Doe")
                             .email("john.doe@nisum.com")
-                            .password("securepassword".toCharArray())
+                            .token(UUID.randomUUID().toString())
+                            .password("securepassword")
                            .build()
+
         expect:
             assertNotNull(user)
             user.xkey == "unique-key"
@@ -85,33 +87,20 @@ class UserSpec extends Specification {
                                                       .build()
                                               }).collect(Collectors.toSet())
 
-            def tokens = IntStream.rangeClosed(1,2)
-                                              .mapToObj({ index ->
-                                                Token.builder()
-                                                       .xkey(String.format("token-key-%s",index))
-                                                       .jwt(String.format("jwt-token-%s",index))
-                                                       .status(Token.TokenStatus.ENABLE)
-                                                      .build()
-                                             }).collect(Collectors.toList())
-
             def user = User.builder()
                             .xkey("unique-key")
                             .name("John Doe")
                             .email("john.doe@nisum.com")
-                            .password("securepassword".toCharArray())
+                            .password("securepassword")
                             .phones(phones)
-                            .tokens(tokens)
+                            .token(UUID.randomUUID().toString())
                            .build()
 
         expect:
             assertNotNull(user)
             user.phones.size() == 2
-            user.tokens.size() == 2
 
             and: "Verify phone details"
             user.phones*.xkey.containsAll(["phone-key-1", "phone-key-2"])
-
-            and: "Verify token details"
-            user.tokens*.xkey.containsAll(["token-key-1", "token-key-2"])
     }
 }

@@ -25,4 +25,20 @@ public abstract class Auditable {
     protected void onUpdate() {
         modified = LocalDateTime.now();
     }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public LocalDateTime getModified() {
+        return modified;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public void setModified(LocalDateTime modified) {
+        this.modified = modified;
+    }
 }
