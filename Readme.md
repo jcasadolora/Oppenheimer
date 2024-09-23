@@ -69,11 +69,11 @@ Integration tests validate the full flow of user registration, ensuring the syst
 
 ### Clone the repository.
 
-   `git clone https://github.com/jcasadolora/Oppenheimer.git`
+ `git clone https://github.com/jcasadolora/Oppenheimer.git`
    
 ### Build and download the dependencies.
 
-    `./gradlew clean build`
+  `./gradlew clean build`
 
 ### Run the application.
 

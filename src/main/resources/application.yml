@@ -33,6 +33,11 @@ spring:
       format_sql: true
       use_sql_comments: true
 
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog.sql
+    liquibase-schema: public
+
   devtools:
     add-properties: false
 
@@ -87,3 +92,4 @@ password:
   parallelism: 1
   memory: 60000
   iterations: 10
+

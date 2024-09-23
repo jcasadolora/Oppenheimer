@@ -14,14 +14,15 @@ dependencies {
 
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${openapi}"
     implementation "org.hibernate.validator:hibernate-validator:${validator}"
-    implementation 'org.bouncycastle:bcpkix-jdk15on:1.+'
-    implementation 'com.auth0:java-jwt:4.4.0'
+    implementation "org.bouncycastle:bcpkix-jdk15on:${bouncycastle}"
+    implementation "com.auth0:java-jwt:${jwt}"
     implementation 'com.zaxxer:HikariCP'
+    implementation 'org.liquibase:liquibase-core'
 
-    compileOnly 'org.projectlombok:lombok:1.18.+'
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
     runtimeOnly 'com.h2database:h2'
 
-    annotationProcessor 'org.projectlombok:lombok:1.18.+'
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.spockframework:spock-spring:${spockVersion}"
